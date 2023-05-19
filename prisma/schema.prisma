@@ -17,6 +17,7 @@ model User {
   Plan     Plan?   @relation(fields: [planId], references: [id])
   planId   Int?
   Emails   Email[]
+  Sms      Sms[]
 }
 
 model Plan {
@@ -36,6 +37,16 @@ model Email {
   status          STATUS_TYPE @default(PENDING)
   User            User?       @relation(fields: [userId], references: [id])
   userId          Int?
+}
+
+model Sms {
+  id      Int         @id @default(autoincrement())
+  phone   String
+  message String
+  sender  String
+  status  STATUS_TYPE @default(PENDING)
+  User    User?       @relation(fields: [userId], references: [id])
+  userId  Int?
 }
 
 enum STATUS_TYPE {

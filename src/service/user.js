@@ -24,6 +24,22 @@ class User {
       throw error;
     }
   }
+
+  static async upgradeUserPlan(userId, planId) {
+    try {
+      return await prisma.user.update({
+        where: { id: userId },
+        data: {
+          planId: planId,
+        },
+        include: {
+          Plan: true,
+        },
+      });
+    } catch (error) {
+      throw error;
+    }
+  }
 }
 
 module.exports = User;

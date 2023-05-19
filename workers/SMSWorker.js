@@ -1,6 +1,6 @@
 const { workerData, parentPort } = require("worker_threads");
 const amqp = require("amqplib/callback_api");
-const EmailService = require("../src/service/email");
+const SMSService = require("../src/service/sms");
 
 const CLOUDAMQP_URL = process.env.CLOUDAMQP;
 
@@ -18,27 +18,27 @@ amqp.connect(CLOUDAMQP_URL, (err, conn) => {
       return;
     }
 
-    const queue = "email_task_queue";
+    const queue = "sms_task_queue";
 
     ch.assertQueue(queue, { durable: false });
 
     ch.consume(queue, async (msg) => {
       if (msg !== null) {
-        const emailData = JSON.parse(msg.content.toString());
+        const smsData = JSON.parse(msg.content.toString());
 
         try {
-          //SEND email to SENDGRID API and UPDATE EMAIL STATUS (EMAIL SERVICE)
-          const updateEmail = await EmailService.updateEmail(
-            emailData?.id,
+          //SEND SMS to SMS API and UPDATE SMS STATUS (SMS SERVICE)
+          const updateSMS = await SMSService.updateSMS(
+            smsData?.id,
             "DELIVERED"
           );
           parentPort.postMessage({
             message: "Email successfully sent and updated",
-            data: updateEmail,
+            data: updateSMS,
           });
         } catch (error) {
           parentPort.postMessage({
-            error: "Failed to update email",
+            error: "Failed to retry and update sms",
             details: error,
           });
         }

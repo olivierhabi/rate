@@ -1,7 +1,7 @@
 import { RateLimiterRedis, RateLimiterMemory } from "rate-limiter-flexible";
 import { redisClient } from "./redis";
 
-const createRateLimitersForPlan = (plan) => {
+export const createRateLimitersForPlan = (plan) => {
   const perSecondLimiter = new RateLimiterRedis({
     storeClient: redisClient,
     keyPrefix: `middleware:${plan.type}:perSecond`,

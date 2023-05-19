@@ -39,7 +39,6 @@ class Access {
         next();
       }
     } catch (error) {
-      console.log(error);
       return res.status(500).json({ status: 500, message: error });
     }
   }

@@ -1,10 +1,6 @@
 import Redis from "ioredis";
+require("dotenv").config();
 
-export const redisClient = new Redis(
-  "redis://default:rNThiC2CWUvLpCzT78lv@containers-us-west-127.railway.app:8058"
-);
+const REDIS_URL = process.env.REDIS_URL;
 
-// export const redisClient = new Redis({
-//   enableOfflineQueue: true,
-//   lazyConnect: true,
-// });
+export const redisClient = new Redis(REDIS_URL);

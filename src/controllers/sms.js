@@ -1,18 +1,18 @@
 const { Worker } = require("worker_threads");
 import amqp from "amqplib/callback_api";
-import EmailService from "../service/email";
+import SMSService from "../service/sms";
 
 const CLOUDAMQP_URL = process.env.CLOUDAMQP;
 
-class EmailController {
-  static async sendEmail(req, res) {
+class SMSController {
+  static async sendSMS(req, res) {
     try {
-      const emailData = {
+      const smsData = {
         userId: req.user.id,
         ...req.body,
       };
 
-      const savedEmail = await EmailService.createEmail(emailData);
+      const savedSMS = await SMSService.createSMS(smsData);
 
       amqp.connect(CLOUDAMQP_URL, (error, connection) => {
         if (error) {
@@ -32,16 +32,16 @@ class EmailController {
             });
           }
 
-          const queue = "email_task_queue";
-          const msg = JSON.stringify(savedEmail);
+          const queue = "sms_task_queue";
+          const msg = JSON.stringify(savedSMS);
 
           channel.assertQueue(queue, { durable: false });
           channel.sendToQueue(queue, Buffer.from(msg));
 
           console.log(" [x] Sent %s", msg);
 
-          const worker = new Worker("./workers/worker.js", {
-            workerData: savedEmail,
+          const worker = new Worker("./workers/SMSWorker.js", {
+            workerData: savedSMS,
           });
 
           // Create a new promise that resolves when the worker sends a message
@@ -61,8 +61,8 @@ class EmailController {
 
           return res.status(200).json({
             status: 200,
-            message: "Email successfully queued for sending",
-            data: savedEmail,
+            message: "SMS successfully queued for sending",
+            data: savedSMS,
           });
         });
 
@@ -74,7 +74,6 @@ class EmailController {
       return res.status(500).json({ status: 500, message: error });
     }
   }
-  static async getEmail(req, res) {}
 }
 
-export default EmailController;
+export default SMSController;
