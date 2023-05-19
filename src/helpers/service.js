@@ -34,10 +34,6 @@ export const fixedWindowRateLimiter = async (req, res, next) => {
     const { perSecondLimiter, perSecondSoftThrottleLimiter, perMonthLimiter } =
       createRateLimitersForPlan(client.plan);
 
-    // await perSecondLimiter.delete(client.email);
-    // await perSecondSoftThrottleLimiter.delete(client.email);
-    // await perMonthLimiter.delete(client.email);
-
     try {
       // Try to consume a point from the normal rate limiter
       await perSecondLimiter.consume(client.email);
