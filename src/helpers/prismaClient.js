@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+const { PrismaClient } = require("@prisma/client");
 
 let prisma;
 
@@ -15,4 +15,4 @@ if (
   prisma = globalWithPrisma.prisma;
 }
 
-export { prisma };
+module.exports = { prisma };

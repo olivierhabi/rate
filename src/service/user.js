@@ -1,4 +1,4 @@
-import { prisma } from "../helpers/prismaClient";
+const { prisma } = require("../helpers/prismaClient");
 
 class User {
   static async createUser(data) {
@@ -26,4 +26,4 @@ class User {
   }
 }
 
-export default User;
+module.exports = User;

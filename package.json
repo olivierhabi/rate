@@ -20,6 +20,7 @@
   "dependencies": {
     "@prisma/client": "4.14.0",
     "add": "^2.0.6",
+    "amqplib": "^0.10.3",
     "axios": "^1.4.0",
     "bcrypt": "^5.1.0",
     "cross-env": "^7.0.3",
@@ -31,6 +32,7 @@
     "jest-fetch-mock": "^3.0.3",
     "joi": "^17.9.2",
     "jsonwebtoken": "^9.0.0",
+    "node-cron": "^3.0.2",
     "node-fetch": "2",
     "prom-client": "^14.2.0",
     "rate-limiter-flexible": "^2.4.1",
