@@ -4,6 +4,9 @@
   "main": "index.js",
   "author": "Olivier HABIMANA",
   "license": "MIT",
+  "engines": {
+    "node": ">=16 <19"
+  },
   "scripts": {
     "prebuild": "rm -rf build",
     "build": "babel src -d build",
