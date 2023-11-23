@@ -11,14 +11,15 @@
     "prebuild": "rm -rf build",
     "build": "babel src -d build",
     "prestart": "yarn build",
-    "start": "node -r dotenv/config build",
+    "start": "prisma db push && node prisma/seed.js && node -r dotenv/config build",
     "dev": "cross-env NODE_ENV=development nodemon --exec babel-node src/index.js",
     "test": "cross-env NODE_ENV=test nyc --reporter=html --reporter=text mocha --require @babel/register 'src/**/**.test.js' --parallel --timeout 60000 --exit",
     "lint": "eslint --ext .js . --fix --ignore-path .gitignore",
     "migrate": "prisma migrate dev",
     "migrate:dev:create": "prisma migrate dev --create-only",
     "db:push": "prisma db push",
-    "prisma:generate": "prisma generate"
+    "prisma:generate": "prisma generate",
+    "seed": "node prisma/seed.js"
   },
   "dependencies": {
     "@prisma/client": "4.14.0",

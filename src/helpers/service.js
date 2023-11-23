@@ -70,3 +70,32 @@ export const fixedWindowRateLimiter = async (req, res, next) => {
     return res.status(500).json({ status: 500, message: error });
   }
 };
+
+// System-wide rate limiter
+const systemWideRateLimiter = new RateLimiterRedis({
+  storeClient: redisClient,
+  keyPrefix: "middleware:systemwide",
+  points: process.env.SYSTEM_WIDERATE_LIMITER_REQUESTS, // limit to 1000 requests per second for the whole system
+  duration: 1, // 1 second
+});
+
+export const systemWideRateLimitMiddleware = async (req, res, next) => {
+  try {
+    // Try to consume a point from the system-wide rate limiter
+    await systemWideRateLimiter.consume("system");
+    next();
+  } catch (error) {
+    // If the rate limit is exceeded
+    const rateLimiterRes = await systemWideRateLimiter.get("system");
+    let waitTimeSec = 0;
+
+    if (rateLimiterRes && rateLimiterRes.msBeforeNext) {
+      waitTimeSec = rateLimiterRes.msBeforeNext / 1000;
+    }
+
+    return res.status(429).json({
+      status: 429,
+      message: `System is busy. Please wait ${waitTimeSec} seconds.`,
+    });
+  }
+};

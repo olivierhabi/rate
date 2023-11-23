@@ -8,6 +8,7 @@ import Sms from "./sms";
 import Plan from "./plan";
 
 const appRouter = Router();
+
 appRouter.use("/auth", Authentication);
 appRouter.use("/plan", Access.auth, Plan);
 appRouter.use(Access.auth, fixedWindowRateLimiter);

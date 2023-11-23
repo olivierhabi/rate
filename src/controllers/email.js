@@ -40,24 +40,27 @@ class EmailController {
 
           console.log(" [x] Sent %s", msg);
 
-          const worker = new Worker("./workers/worker.js", {
-            workerData: savedEmail,
-          });
+          // const worker = new Worker("./workers/worker.js", {
+          //   workerData: savedEmail,
+          // });
 
-          // Create a new promise that resolves when the worker sends a message
-          new Promise((resolve, reject) => {
-            worker.on("message", (data) => {
-              resolve(data);
-            });
-            worker.on("error", (error) => {
-              reject(error);
-            });
-            worker.on("exit", (code) => {
-              if (code != 0) {
-                reject(new Error(`Worker stopped with exit code ${code}`));
-              }
-            });
-          });
+          // // Create a new promise that resolves when the worker sends a message
+          // new Promise((resolve, reject) => {
+          //   worker.on("message", (data) => {
+          //     console.log(data, "==================== RESOLVE");
+          //     resolve(data);
+          //   });
+          //   worker.on("error", (error) => {
+          //     console.log("==================== ERROR");
+          //     reject(error);
+          //   });
+          //   worker.on("exit", (code) => {
+          //     console.log("==================== exit");
+          //     if (code != 0) {
+          //       reject(new Error(`Worker stopped with exit code ${code}`));
+          //     }
+          //   });
+          // });
 
           return res.status(200).json({
             status: 200,

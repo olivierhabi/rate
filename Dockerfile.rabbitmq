@@ -1,0 +1,4 @@
+FROM --platform=linux/arm64/v8 rabbitmq:3.11.11-management
+
+# Expose the Rabbitmq default port
+EXPOSE 15672 5672

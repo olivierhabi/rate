@@ -1,0 +1,22 @@
+# Use an official Node runtime based on Alpine as a parent image
+FROM --platform=linux/arm64/v8  node:16.15.1-alpine
+
+# Set the working directory in the container
+WORKDIR /app
+
+# Copy package.json and yarn.lock (or package-lock.json) into the working directory
+COPY package*.json ./
+COPY yarn.lock ./
+
+RUN yarn install
+
+COPY prisma ./prisma/
+
+COPY . .
+
+RUN npx prisma generate
+
+EXPOSE 4000
+
+# Define the command to run the app
+CMD [ "node", "worker.js" ]

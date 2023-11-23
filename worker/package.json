@@ -1,0 +1,19 @@
+{
+  "name": "rate-limiter-workers",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Olivier HABIMANA",
+  "license": "MIT",
+  "scripts": {
+    "worker": "node worker.js"
+  },
+  "dependencies": {
+    "@prisma/client": "4.14.0",
+    "amqplib": "0.10.3",
+    "dotenv": "16.0.3",
+    "joi": "17.9.2"
+  },
+  "devDependencies": {
+    "prisma": "^4.14.0"
+  }
+}

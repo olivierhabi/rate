@@ -1,0 +1,5 @@
+# Use the official Redis image as a base image
+FROM --platform=linux/arm64/v8 redis
+
+# Expose the Redis default port
+EXPOSE 6379

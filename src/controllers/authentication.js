@@ -21,6 +21,8 @@ class Authentication {
         });
       }
       const createUser = await UserService.createUser(newUser);
+      
+      delete createUser.password;
 
       return res.status(200).json({
         status: 200,

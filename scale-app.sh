@@ -1,0 +1,1 @@
+docker compose up --scale rate_limiter_app=3 -d

@@ -1,0 +1,10 @@
+# Use an official PostgreSQL image as base
+FROM --platform=linux/arm64/v8  postgres:14.8-alpine
+
+# Set environment variables
+ENV POSTGRES_DB=rate
+ENV POSTGRES_USER=olivierhabi
+ENV POSTGRES_PASSWORD=1234
+
+# Expose the PostgreSQL port
+EXPOSE 5432
